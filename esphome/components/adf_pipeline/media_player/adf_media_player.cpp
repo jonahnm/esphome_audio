@@ -25,7 +25,7 @@ void ADFMediaPlayer::set_stream_uri(const std::string& new_uri) {
   else if (new_uri.find(".amr") != std::string::npos) {
     http_and_decoder_.decoder_type = ADFEncoding::AMR;
   }
-  else if (new_uri.contains(".flac")) {
+  else if (new_uri.find(".flac") != std::string::npos) {
     http_and_decoder_.decoder_type = ADFEncoding::FLAC;
   }
   else if (new_uri.find(".mp3") != std::string::npos) {
