@@ -30,9 +30,6 @@ bool HTTPStreamReaderAndDecoder::init_adf_elements_() {
 
   sdk_audio_elements_.push_back(this->http_stream_reader_);
   sdk_element_tags_.push_back("http");
-
-  mp3_decoder_cfg_t mp3_cfg = DEFAULT_MP3_DECODER_CONFIG();
-  mp3_cfg.out_rb_size = 4 * 1024;
    audio_decoder_t auto_decode[] = {
         DEFAULT_ESP_AMRNB_DECODER_CONFIG(),
         DEFAULT_ESP_AMRWB_DECODER_CONFIG(),
