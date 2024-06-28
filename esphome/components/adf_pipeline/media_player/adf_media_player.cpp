@@ -19,22 +19,22 @@ void ADFMediaPlayer::dump_config() {
 }
 
 void ADFMediaPlayer::set_stream_uri(const std::string& new_uri) {
-   if (uri.find(".aac") != std::string::npos) {
+   if (new_uri.find(".aac") != std::string::npos) {
     http_and_decoder_.decoder_type = ADFEncoding::AAC;
   }
-  else if (uri.find(".amr") != std::string::npos) {
+  else if (new_uri.find(".amr") != std::string::npos) {
     http_and_decoder_.decoder_type = ADFEncoding::AMR;
   }
-  else if (uri.find(".flac") != std::string::npos) {
+  else if (new_uri.find(".flac") != std::string::npos) {
     http_and_decoder_.decoder_type = ADFEncoding::FLAC;
   }
-  else if (uri.find(".mp3") != std::string::npos) {
+  else if (new_uri.find(".mp3") != std::string::npos) {
     http_and_decoder_.decoder_type = ADFEncoding::MP3;
   }
-  else if (uri.find(".ogg") != std::string::npos) {
+  else if (new_uri.find(".ogg") != std::string::npos) {
     http_and_decoder_.decoder_type = ADFEncoding::OGG;
   }
-  else if (uri.find(".opus") != std::string::npos) {
+  else if (new_uri.find(".opus") != std::string::npos) {
     http_and_decoder_.decoder_type = ADFEncoding::OPUS;
   }
   else {
