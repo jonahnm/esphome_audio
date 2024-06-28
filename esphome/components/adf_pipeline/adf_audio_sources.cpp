@@ -40,7 +40,7 @@ bool HTTPStreamReaderAndDecoder::init_adf_elements_() {
   else if (this->decoder_type == ADFEncoding::MP3) {
     esph_log_d(TAG, "decoder type: MP3" );
     mp3_decoder_cfg_t mp3_cfg = DEFAULT_MP3_DECODER_CONFIG();
-    mp3_cfg.out_rb_size = 4 * 1024;
+    mp3_cfg.out_rb_size = 50 * 1024;
     decoder_ = mp3_decoder_init(&mp3_cfg);
   }
 
