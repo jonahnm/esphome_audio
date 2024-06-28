@@ -4,7 +4,8 @@
 
 #include <http_stream.h>
 #include <raw_stream.h>
-#include <esp_decoder.h>
+#include <flac_decoder.h>
+#include <mp3_decoder.h>
 #include "sdk_ext.h"
 
 namespace esphome {
@@ -30,21 +31,18 @@ bool HTTPStreamReaderAndDecoder::init_adf_elements_() {
 
   sdk_audio_elements_.push_back(this->http_stream_reader_);
   sdk_element_tags_.push_back("http");
-   audio_decoder_t auto_decode[] = {
-        DEFAULT_ESP_AMRNB_DECODER_CONFIG(),
-        DEFAULT_ESP_AMRWB_DECODER_CONFIG(),
-        DEFAULT_ESP_FLAC_DECODER_CONFIG(),
-        DEFAULT_ESP_OGG_DECODER_CONFIG(),
-        DEFAULT_ESP_OPUS_DECODER_CONFIG(),
-        DEFAULT_ESP_MP3_DECODER_CONFIG(),
-        DEFAULT_ESP_WAV_DECODER_CONFIG(),
-        DEFAULT_ESP_AAC_DECODER_CONFIG(),
-        DEFAULT_ESP_M4A_DECODER_CONFIG(),
-        DEFAULT_ESP_TS_DECODER_CONFIG(),
-  };
-  esp_decoder_cfg_t auto_dec_cfg = DEFAULT_ESP_DECODER_CONFIG();
-  auto_dec_cfg.out_rb_size = 500 * 1024;
-  decoder_ = esp_decoder_init(&auto_dec_cfg, auto_decode, 10);
+  if (this->decoder_type == ADFEncoding::FLAC) {
+    esph_log_d(TAG, "decoder type: FLAC" );
+    flac_decoder_cfg_t flac_cfg = DEFAULT_FLAC_DECODER_CONFIG();
+    flac_cfg.out_rb_size = 4 * 1024;
+    decoder_ = flac_decoder_init(&flac_cfg);
+  }
+  else if (this->decoder_type == ADFEncoding::MP3) {
+    esph_log_d(TAG, "decoder type: MP3" );
+    mp3_decoder_cfg_t mp3_cfg = DEFAULT_MP3_DECODER_CONFIG();
+    mp3_cfg.out_rb_size = 4 * 1024;
+    decoder_ = mp3_decoder_init(&mp3_cfg);
+  }
 
   sdk_audio_elements_.push_back(this->decoder_);
   sdk_element_tags_.push_back("decoder");
