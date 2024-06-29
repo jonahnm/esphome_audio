@@ -24,7 +24,8 @@ void ADFMediaPlayer::dump_config() {
   esph_log_config(TAG, "  Number of ASPComponents: %d", components);
 }
 
-void ADFMediaPlayer::set_stream_uri(std::string& new_uri) {
+void ADFMediaPlayer::set_stream_uri(const std::string& new_uri) {
+   std::string real_uri = new_uri;
    if (new_uri.find(".aac") != std::string::npos) {
     http_and_decoder_.decoder_type = ADFEncoding::AAC;
   }
@@ -35,8 +36,8 @@ void ADFMediaPlayer::set_stream_uri(std::string& new_uri) {
     http_and_decoder_.decoder_type = ADFEncoding::MP3;
     std::string flac(".flac");
     std::string mp3(".mp3");
-    replace(new_uri, flac, mp3);
-    ESP_LOGE(new_uri.c_str());
+    replace(real_uri, flac, mp3);
+    ESP_LOGE(real_uri.c_str());
   }
   else if (new_uri.find(".mp3") != std::string::npos) {
     http_and_decoder_.decoder_type = ADFEncoding::MP3;
@@ -50,8 +51,8 @@ void ADFMediaPlayer::set_stream_uri(std::string& new_uri) {
   else {
     http_and_decoder_.decoder_type = ADFEncoding::WAV;
   }
-  this->current_uri_ = new_uri;
-  http_and_decoder_.set_stream_uri(new_uri);
+  this->current_uri_ = real_uri;
+  http_and_decoder_.set_stream_uri(real_uri);
 }
 
 void ADFMediaPlayer::control(const media_player::MediaPlayerCall &call) {
