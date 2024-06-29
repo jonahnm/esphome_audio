@@ -24,7 +24,7 @@ void ADFMediaPlayer::dump_config() {
   esph_log_config(TAG, "  Number of ASPComponents: %d", components);
 }
 
-void ADFMediaPlayer::set_stream_uri(const std::string& new_uri) {
+void ADFMediaPlayer::set_stream_uri(std::string& new_uri) {
    if (new_uri.find(".aac") != std::string::npos) {
     http_and_decoder_.decoder_type = ADFEncoding::AAC;
   }
