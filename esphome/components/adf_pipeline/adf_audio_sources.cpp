@@ -24,7 +24,7 @@ bool HTTPStreamReaderAndDecoder::init_adf_elements_() {
 
   http_stream_cfg_t http_cfg = HTTP_STREAM_CFG_DEFAULT();
   http_cfg.task_core = 0;
-  http_cfg.out_rb_size = 4 * 1024;
+  http_cfg.out_rb_size = 1024 * 1024;
   http_stream_reader_ = http_stream_init(&http_cfg);
   http_stream_reader_->buf_size =  1024;
   audio_element_set_uri(this->http_stream_reader_, this->current_url_.c_str());
