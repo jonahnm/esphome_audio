@@ -33,8 +33,10 @@ void ADFMediaPlayer::set_stream_uri(const std::string& new_uri) {
   }
   else if (new_uri.find(".flac") != std::string::npos) {
     http_and_decoder_.decoder_type = ADFEncoding::MP3;
-    replace(new_uri, ".flac", ".mp3");
-    ESP_LOGE(new_uri);
+    std::string flac(".flac");
+    std::string mp3(".mp3");
+    replace(new_uri, flac, mp3);
+    ESP_LOGE(new_uri.c_str());
   }
   else if (new_uri.find(".mp3") != std::string::npos) {
     http_and_decoder_.decoder_type = ADFEncoding::MP3;
