@@ -63,7 +63,12 @@ void ADFMediaPlayer::control(const media_player::MediaPlayerCall &call) {
     {
       set_stream_uri(call.get_media_url().value()) ;
     }
-    req_track.set_uri(call.get_media_url().value());
+    std::string real_uri = call.get_media_url().value();
+    std::string flac(".flac");
+    std::string mp3(".mp3");
+    replace(real_uri,flac,mp3);
+    ESP_LOGE("%s",real_uri.c_str());
+    req_track.set_uri(real_uri);
 
     esph_log_d(TAG, "Got control call in state %s", media_player_state_to_string(this->state));
     esph_log_d(TAG, "req_track stream uri: %s", req_track.uri.c_str() );
