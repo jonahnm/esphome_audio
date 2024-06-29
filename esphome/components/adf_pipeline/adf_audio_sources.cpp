@@ -41,7 +41,7 @@ bool HTTPStreamReaderAndDecoder::init_adf_elements_() {
 
   http_stream_cfg_t http_cfg = HTTP_STREAM_CFG_DEFAULT();
   http_cfg.task_core = 0;
-  http_cfg.out_rb_size = 256 * 1024;
+  http_cfg.out_rb_size = HTTP_STREAM_RB_SIZE;
   http_cfg.event_handle = http_event_handler;
   http_stream_reader_ = http_stream_init(&http_cfg);
   //http_stream_reader_->buf_size =  1024;
