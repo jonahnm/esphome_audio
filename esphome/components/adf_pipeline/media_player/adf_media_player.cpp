@@ -11,7 +11,13 @@ static const char *const TAG = "adf_media_player";
 void ADFMediaPlayer::setup() {
   state = media_player::MEDIA_PLAYER_STATE_IDLE;
 }
-
+bool replace(std::string& str, const std::string& from, const std::string& to) {
+    size_t start_pos = str.find(from);
+    if(start_pos == std::string::npos)
+        return false;
+    str.replace(start_pos, from.length(), to);
+    return true;
+}
 void ADFMediaPlayer::dump_config() {
   esph_log_config(TAG, "ESP-ADF-MediaPlayer:");
   int components = pipeline.get_number_of_elements();
@@ -27,7 +33,8 @@ void ADFMediaPlayer::set_stream_uri(const std::string& new_uri) {
   }
   else if (new_uri.find(".flac") != std::string::npos) {
     http_and_decoder_.decoder_type = ADFEncoding::MP3;
-    std::regex_replace(new_uri, std::regex("\\.flac"),".mp3");
+    replace(new_uri, ".flac", ".mp3");
+    ESP_LOGE(new_uri);
   }
   else if (new_uri.find(".mp3") != std::string::npos) {
     http_and_decoder_.decoder_type = ADFEncoding::MP3;
