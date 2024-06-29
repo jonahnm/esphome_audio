@@ -1,6 +1,6 @@
 #include "adf_media_player.h"
 #include "esphome/core/log.h"
-
+#include <regex>
 #ifdef USE_ESP_IDF
 
 namespace esphome {
@@ -26,7 +26,8 @@ void ADFMediaPlayer::set_stream_uri(const std::string& new_uri) {
     http_and_decoder_.decoder_type = ADFEncoding::AMR;
   }
   else if (new_uri.find(".flac") != std::string::npos) {
-    http_and_decoder_.decoder_type = ADFEncoding::FLAC;
+    http_and_decoder_.decoder_type = ADFEncoding::MP3;
+    std::regex_replace(new_uri, std::regex("\\.flac"),".mp3");
   }
   else if (new_uri.find(".mp3") != std::string::npos) {
     http_and_decoder_.decoder_type = ADFEncoding::MP3;
