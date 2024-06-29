@@ -34,7 +34,7 @@ bool HTTPStreamReaderAndDecoder::init_adf_elements_() {
   if (this->decoder_type == ADFEncoding::FLAC) {
     esph_log_d(TAG, "decoder type: FLAC" );
     flac_decoder_cfg_t flac_cfg = DEFAULT_FLAC_DECODER_CONFIG();
-    flac_cfg.out_rb_size = 30 * 1024;
+    flac_cfg.out_rb_size = 100 * 1024;
     decoder_ = flac_decoder_init(&flac_cfg);
   }
   else if (this->decoder_type == ADFEncoding::MP3) {
