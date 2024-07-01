@@ -67,7 +67,7 @@ bool HTTPStreamReaderAndDecoder::init_adf_elements_() {
         DEFAULT_ESP_TS_DECODER_CONFIG(),
   };
   esp_decoder_cfg_t auto_dec_cfg = DEFAULT_ESP_DECODER_CONFIG();
-  auto_dec_cfg.out_rb_size = 23 * 1024;
+  auto_dec_cfg.out_rb_size = 15 * 1024;
   decoder_ = esp_decoder_init(&auto_dec_cfg, auto_decode, 10);
 #else
   mp3_decoder_cfg_t mp3_cfg = DEFAULT_MP3_DECODER_CONFIG();
