@@ -22,7 +22,7 @@ static const char *const TAG = "esp_audio_sources";
 */
 
 #ifdef ESP_AUTO_DECODER
-static const int HTTP_STREAM_RB_SIZE = 256 * 1024;
+static const int HTTP_STREAM_RB_SIZE = 25 * 1024;
 #else
 static const int HTTP_STREAM_RB_SIZE = 4 * 1024;
 #endif
@@ -58,13 +58,13 @@ bool HTTPStreamReaderAndDecoder::init_adf_elements_() {
         */
         DEFAULT_ESP_FLAC_DECODER_CONFIG(),
 
-       // DEFAULT_ESP_OGG_DECODER_CONFIG(),
-       // DEFAULT_ESP_OPUS_DECODER_CONFIG(),
+        DEFAULT_ESP_OGG_DECODER_CONFIG(),
+        DEFAULT_ESP_OPUS_DECODER_CONFIG(),
         DEFAULT_ESP_MP3_DECODER_CONFIG(),
-       // DEFAULT_ESP_WAV_DECODER_CONFIG(),
-       // DEFAULT_ESP_AAC_DECODER_CONFIG(),
+        DEFAULT_ESP_WAV_DECODER_CONFIG(),
+        DEFAULT_ESP_AAC_DECODER_CONFIG(),
         DEFAULT_ESP_M4A_DECODER_CONFIG(),
-       // DEFAULT_ESP_TS_DECODER_CONFIG(),
+        DEFAULT_ESP_TS_DECODER_CONFIG(),
   };
   esp_decoder_cfg_t auto_dec_cfg = DEFAULT_ESP_DECODER_CONFIG();
   auto_dec_cfg.out_rb_size = 256 * 1024;
