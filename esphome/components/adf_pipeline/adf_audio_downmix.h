@@ -11,15 +11,15 @@ class ADFPipelineProcessElement : public ADFPipelineElement {
   AudioPipelineElementType get_element_type() const { return AudioPipelineElementType::AUDIO_PIPELINE_PROCESS; }
 };
 
-class ADFForge : public ADFPipelineProcessElement {
+class ADFDownmix : public ADFPipelineProcessElement {
  public:
-  const std::string get_name() override { return "Audio Forge"; }
+  const std::string get_name() override { return "Downmix"; }
 
  protected:
   bool init_adf_elements_() override;
   void on_settings_request(AudioPipelineSettingsRequest &request) override;
 
-  audio_element_handle_t sdk_audio_forge_;
+  audio_element_handle_t sdk_downmix_;
 };
 
 }  // namespace esp_adf
