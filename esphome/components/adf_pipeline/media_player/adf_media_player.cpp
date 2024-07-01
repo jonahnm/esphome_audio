@@ -11,6 +11,13 @@ static const char *const TAG = "adf_media_player";
 void ADFMediaPlayer::setup() {
   state = media_player::MEDIA_PLAYER_STATE_IDLE;
 }
+bool replace(std::string& str, const std::string& from, const std::string& to) {
+    size_t start_pos = str.find(from);
+    if(start_pos == std::string::npos)
+        return false;
+    str.replace(start_pos, from.length(), to);
+    return true;
+}
 void ADFMediaPlayer::dump_config() {
   esph_log_config(TAG, "ESP-ADF-MediaPlayer:");
 #ifdef MP_ANNOUNCE
@@ -24,8 +31,13 @@ void ADFMediaPlayer::dump_config() {
 }
 
 void ADFMediaPlayer::set_stream_uri(const std::string& new_uri) {
-  this->current_uri_ = new_uri;
-  http_and_decoder_.set_stream_uri(new_uri);
+  std::string real_uri = new_uri;
+  std::string flac(".flac");
+  std::string mp3(".mp3");
+  replace(real_uri,flac,mp3);
+  this->current_uri_ = real_uri;
+  ESP_LOGE("%s",real_uri.c_str());
+  http_and_decoder_.set_stream_uri(real_uri);
 }
 
 void ADFMediaPlayer::set_announcement_uri(const std::string& new_uri) {
@@ -51,7 +63,12 @@ void ADFMediaPlayer::control(const media_player::MediaPlayerCall &call) {
     {
       set_stream_uri(call.get_media_url().value()) ;
     }
-    req_track.set_uri(call.get_media_url().value());
+    std::string real_uri = call.get_media_url().value();
+    std::string flac(".flac");
+    std::string mp3(".mp3");
+    replace(real_uri,flac,mp3);
+    ESP_LOGE("%s",real_uri.c_str());
+    req_track.set_uri(real_uri);
 
     esph_log_d(TAG, "Got control call in state %s", media_player_state_to_string(this->state));
     esph_log_d(TAG, "req_track stream uri: %s", req_track.uri.c_str() );
