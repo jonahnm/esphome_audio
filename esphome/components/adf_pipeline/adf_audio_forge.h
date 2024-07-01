@@ -3,7 +3,6 @@
 #ifdef USE_ESP_IDF
 
 #include "adf_audio_element.h"
-
 namespace esphome {
 namespace esp_adf {
 
@@ -12,15 +11,15 @@ class ADFPipelineProcessElement : public ADFPipelineElement {
   AudioPipelineElementType get_element_type() const { return AudioPipelineElementType::AUDIO_PIPELINE_PROCESS; }
 };
 
-class ADFMulti : public ADFPipelineProcessElement {
+class ADFForge : public ADFPipelineProcessElement {
  public:
-  const std::string get_name() override { return "Multi"; }
+  const std::string get_name() override { return "Audio Forge"; }
 
  protected:
   bool init_adf_elements_() override;
   void on_settings_request(AudioPipelineSettingsRequest &request) override;
 
-  audio_element_handle_t sdk_resampler_;
+  audio_element_handle_t sdk_audio_forge_;
 };
 
 }  // namespace esp_adf
