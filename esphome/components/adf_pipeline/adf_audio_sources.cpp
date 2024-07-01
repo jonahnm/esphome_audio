@@ -22,7 +22,7 @@ static const char *const TAG = "esp_audio_sources";
 */
 
 #ifdef ESP_AUTO_DECODER
-static const int HTTP_STREAM_RB_SIZE = 25 * 1024;
+static const int HTTP_STREAM_RB_SIZE = 15 * 1024;
 #else
 static const int HTTP_STREAM_RB_SIZE = 4 * 1024;
 #endif
