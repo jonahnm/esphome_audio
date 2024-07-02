@@ -14,16 +14,22 @@ from .. import (
 
 
 CODEOWNERS = ["@gnumpi"]
-DEPENDENCIES = ["adf_pipeline", "speaker"]
+DEPENDENCIES = ["adf_pipeline"]
 
 
-ADFSpeaker = esp_adf_ns.class_(
-    "ADFSpeaker", ADFPipelineController, speaker.Speaker, cg.Component
+ADFMixer = esp_adf_ns.class_(
+    "ADFMixer", ADFPipelineController, cg.Component
 )
+CONF_INPUT_PIPELINES = "input_pipelines"
 
-CONFIG_SCHEMA = speaker.SPEAKER_SCHEMA.extend(
+CONFIG_SCHEMA = cv.Schema(
     {
-        cv.GenerateID(): cv.declare_id(ADFSpeaker),
+        cv.GenerateID(): cv.declare_id(ADFMixer),
+        cv.Required(CONF_INPUT_PIPELINES): cv.ensure_list(
+            cv.Any(
+                cv.use_id(ADFPipelineController),
+            )
+        ),
     }
 ).extend(ADF_PIPELINE_CONTROLLER_SCHEMA)
 
@@ -31,6 +37,7 @@ CONFIG_SCHEMA = speaker.SPEAKER_SCHEMA.extend(
 # @coroutine_with_priority(100.0)
 async def to_code(config):
     var = cg.new_Pvariable(config[CONF_ID])
+    cg.add(var.set_input_pipelines(config[CONF_INPUT_PIPELINES]))
     await cg.register_component(var, config)
     await setup_pipeline_controller(var, config)
-    await speaker.register_speaker(var, config)
+   # await speaker.register_speaker(var, config)
