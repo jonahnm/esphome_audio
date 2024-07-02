@@ -22,7 +22,7 @@ class ADFMixer : public Component, public ADFPipelineController {
   // Pipeline implementations
   void append_own_elements(){ add_element_to_pipeline( (ADFPipelineElement*) &(this->downmixer_) ); }
   const std::string get_name() {return "ADF-Mixer";}
-
+  void add_input_pipeline(const ADFPipelineController pipeline) { pipelines_.push_back(pipeline); }
   // ESPHome-Component implementations
   float get_setup_priority() const override { return esphome::setup_priority::LATE; }
   void  setup() override;
@@ -44,6 +44,7 @@ class ADFMixer : public Component, public ADFPipelineController {
   void on_pipeline_state_change(PipelineState state) override;
   void request_pipeline_settings_();
   ADFDownmixer downmixer_;
+  std::vector<ADFPipelineController> pipelines_;
 };
 
 }  // namespace esp_adf
