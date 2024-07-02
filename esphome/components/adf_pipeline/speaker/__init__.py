@@ -37,7 +37,8 @@ CONFIG_SCHEMA = cv.Schema(
 # @coroutine_with_priority(100.0)
 async def to_code(config):
     var = cg.new_Pvariable(config[CONF_ID])
-    cg.add(var.set_input_pipelines(config[CONF_INPUT_PIPELINES]))
+    for pipeline in config[CONF_INPUT_PIPELINES:
+        cg.add(var.add_input_pipeline(pipeline)
     await cg.register_component(var, config)
     await setup_pipeline_controller(var, config)
    # await speaker.register_speaker(var, config)
