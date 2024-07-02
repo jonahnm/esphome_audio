@@ -11,17 +11,17 @@
 
 #include "../adf_pipeline_controller.h"
 #include "../adf_audio_sources.h"
-
+#include "../adf_audio_downmixer"
 namespace esphome {
 namespace esp_adf {
 
 static const size_t BUFFER_SIZE = 1024;
 
-class ADFSpeaker : public speaker::Speaker, public ADFPipelineController {
+class ADFMixer : public Component, public ADFPipelineController {
  public:
   // Pipeline implementations
-  void append_own_elements(){ add_element_to_pipeline( (ADFPipelineElement*) &(this->pcm_stream_) ); }
-  const std::string get_name() {return "ADF-Speaker";}
+  void append_own_elements(){ add_element_to_pipeline( (ADFPipelineElement*) &(this->downmixer_) ); }
+  const std::string get_name() {return "ADF-Mixer";}
 
   // ESPHome-Component implementations
   float get_setup_priority() const override { return esphome::setup_priority::LATE; }
@@ -31,19 +31,19 @@ class ADFSpeaker : public speaker::Speaker, public ADFPipelineController {
 
 
   // Speaker implemenations
-  void start() override;
-  void stop() override;
-  size_t play(const uint8_t *data, size_t length) override;
-  bool has_buffered_data() const override;
+ // void start() override;
+//  void stop() override;
+ // size_t play(const uint8_t *data, size_t length) override;
+ // bool has_buffered_data() const override;
 
  protected:
-  void start_();
-  void watch_();
+//  void start_();
+ // void watch_();
 
   // Pipeline implementations
   void on_pipeline_state_change(PipelineState state) override;
   void request_pipeline_settings_();
-  PCMSource pcm_stream_;
+  Downmixer downmixer_;
 };
 
 }  // namespace esp_adf
