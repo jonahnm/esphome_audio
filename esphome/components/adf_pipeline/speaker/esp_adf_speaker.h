@@ -43,7 +43,7 @@ class ADFMixer : public Component, public ADFPipelineController {
   // Pipeline implementations
   void on_pipeline_state_change(PipelineState state) override;
   void request_pipeline_settings_();
-  Downmixer downmixer_;
+  ADFDownmixer downmixer_;
 };
 
 }  // namespace esp_adf
