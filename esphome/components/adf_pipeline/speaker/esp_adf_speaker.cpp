@@ -9,11 +9,12 @@
 namespace esphome {
 namespace esp_adf {
 
-static const char *const TAG = "esp_adf.speaker";
+static const char *const TAG = "esp_adf.mixer";
 
-void ADFSpeaker::setup() {
+void ADFMixer::setup() {
   ESP_LOGCONFIG(TAG, "Setting up ESP ADF Speaker...");
   pipeline.set_finish_timeout_ms(10000);
+  
 }
 
 void ADFSpeaker::dump_config() {
@@ -61,32 +62,6 @@ void ADFSpeaker::on_pipeline_state_change(PipelineState state) {
 
 void ADFSpeaker::loop() {
   this->pipeline.loop();
-}
-
-size_t ADFSpeaker::play(const uint8_t *data, size_t length) {
-  if (this->is_failed()) {
-    ESP_LOGE(TAG, "Failed to play audio, speaker is in failed state.");
-    return 0;
-  }
-
-  if (this->state_ != speaker::STATE_RUNNING) {
-    ESP_LOGV(TAG, "Trying to play audio while speaker not running.");
-    return 0;
-  }
-
-  size_t remaining = length;
-  size_t index = 0;
-  while (remaining > 0) {
-    size_t to_send_length = std::min(remaining, BUFFER_SIZE);
-    pcm_stream_.stream_write( (char *) data + index, to_send_length );
-    remaining -= to_send_length;
-    index += to_send_length;
-  }
-  return index;
-}
-
-bool ADFSpeaker::has_buffered_data() const {
-  return pcm_stream_.has_buffered_data();
 }
 
 void ADFSpeaker::request_pipeline_settings_(){
