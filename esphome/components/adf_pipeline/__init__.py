@@ -31,7 +31,7 @@ BUILT_IN_AUDIO_ELEMENT_IDS = ["resampler"]
 
 # Pipeline Controller
 
-COMPONENT_TYPES = ["sink", "source", "filter"]
+COMPONENT_TYPES = ["sink", "source", "filter", "mixer"]
 SELF_DESCRIPTORS = ["this", "source", "sink", "self"]
 
 ADF_PIPELINE_CONTROLLER_SCHEMA = cv.Schema(
