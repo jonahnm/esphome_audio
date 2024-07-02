@@ -12,19 +12,31 @@ namespace esp_adf {
 static const char *const TAG = "esp_adf.mixer";
 
 void ADFMixer::setup() {
-  ESP_LOGCONFIG(TAG, "Setting up ESP ADF Speaker...");
+  ESP_LOGCONFIG(TAG, "Setting up ESP ADF Mixer...");
   pipeline.set_finish_timeout_ms(10000);
-  
+  int i = 0;
+  for(auto & pipeline: this->pipelines_) {
+      i++;
+      ADFPipeline real_pipeline = pipeline->pipeline;
+      ADFPipelineElement *raw;
+      for(auto & element: real_pipeline.pipeline_elements_) {
+          if(dynamic_cast<const PCMSource *>(element) != nullptr) {
+              raw = element;
+          }
+      }
+    ringbuf_handle_t rb = audio_element_get_input_ringbuf(raw->adf_raw_stream_writer_);
+    downmix_set_input_rb(this->downmixer_.sdk_downmixer_,rb,i);
+  }
 }
-
-void ADFSpeaker::dump_config() {
+/*
+void ADFMixer::dump_config() {
   ESP_LOGCONFIG(TAG, "ESP ADF Speaker Configs:");
 }
 
 
-void ADFSpeaker::start() { pipeline.start(); }
+void ADFMixer::start() { pipeline.start(); }
 
-void ADFSpeaker::start_() {
+void ADFMixer::start_() {
    pipeline.start();
 }
 
@@ -34,8 +46,8 @@ void ADFSpeaker::stop() {
   this->state_ = speaker::STATE_STOPPING;
   pipeline.stop();
 }
-
-void ADFSpeaker::on_pipeline_state_change(PipelineState state) {
+*/
+void ADFMixer::on_pipeline_state_change(PipelineState state) {
    switch (state) {
       case PipelineState::PREPARING:
         this->request_pipeline_settings_();
@@ -60,12 +72,12 @@ void ADFSpeaker::on_pipeline_state_change(PipelineState state) {
    }
 }
 
-void ADFSpeaker::loop() {
+void ADFMixer::loop() {
   this->pipeline.loop();
 }
 
-void ADFSpeaker::request_pipeline_settings_(){
-    AudioPipelineSettingsRequest request{&this->pcm_stream_};
+void ADFMixer::request_pipeline_settings_(){
+    AudioPipelineSettingsRequest request{&this->downmixer_};
     request.sampling_rate = 16000;
     request.bit_depth = 16;
     request.number_of_channels = 1;
