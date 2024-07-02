@@ -18,10 +18,10 @@ void ADFMixer::setup() {
   for(auto & pipeline: this->pipelines_) {
       i++;
       ADFPipeline real_pipeline = pipeline->pipeline;
-      ADFPipelineElement *raw;
+      PCMSource *raw;
       for(auto & element: real_pipeline.pipeline_elements_) {
           if(dynamic_cast<const PCMSource *>(element) != nullptr) {
-              raw = element;
+              raw = dynamic_cast<PCMSource *>(element);
           }
       }
     ringbuf_handle_t rb = audio_element_get_input_ringbuf(raw->adf_raw_stream_writer_);
