@@ -38,7 +38,7 @@ void ADFElementI2SOut::clear_adf_elements_(){
 }
 
 bool ADFElementI2SOut::is_ready(){
-  return true
+  return true;
 }
 
 void ADFElementI2SOut::on_settings_request(AudioPipelineSettingsRequest &request) {
