@@ -24,7 +24,7 @@ bool ADFElementI2SOut::init_adf_elements_() {
 
  pwm_stream_cfg_t pwm_cfg = PWM_STREAM_CFG_DEFAULT();
     pwm_cfg.pwm_config.gpio_num_left = 22;
-    pwm_cfg.pwm_config.gpio_num_right = 15;
+    pwm_cfg.pwm_config.gpio_num_right = 4;
     this->adf_i2s_stream_writer_ = pwm_stream_init(&pwm_cfg);
   sdk_audio_elements_.push_back(this->adf_i2s_stream_writer_);
   sdk_element_tags_.push_back("i2s_out");
